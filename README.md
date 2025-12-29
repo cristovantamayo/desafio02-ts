@@ -27,3 +27,4 @@ desenvolvido por [Nathally Souza](https://github.com/nathyts)
 [ ] Crie uma função de Boas vindas
   - Ao clicar no botão, deve aparecer um alert com uma mensagem de boas vindas
   - Crie o teste unitário da função
+# desafio02-ts
