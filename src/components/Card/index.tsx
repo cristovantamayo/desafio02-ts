@@ -1,9 +1,28 @@
 import { Center, Input, Box } from "@chakra-ui/react";
 import { MyButton } from "../MyButton";
 import { login } from "../../services/login";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { api } from "../../api";
+
+interface UserData {
+  email: string;
+  password: string;
+  name: string;
+}
 
 export const Card = () => {
+  const [email, setEmail] = useState<string>("");
+  const [userData, setUserData] = useState<null | UserData>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data: any | UserData = await api;
+      setEmail(data.email);
+      setUserData(data);
+    };
+    fetchData();
+  }, []);
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -23,10 +42,22 @@ export const Card = () => {
         margin="0 auto"
         marginTop="10vh"
       >
+        {userData === null || userData === undefined ? (
+          <h1>Loading...</h1>
+        ) : (
+          <h1>Loaded Info!</h1>
+        )}
+
         <Center marginBottom="20px">
           <h1>Faça o login</h1>
         </Center>
-        <Input ref={emailRef} placeholder="email" />
+
+        <Input
+          ref={emailRef}
+          placeholder="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
         <Input ref={passwordRef} placeholder="password" />
         <Center marginTop="20px" flexDirection="column">
           <MyButton
